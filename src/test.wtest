@@ -1,0 +1,12 @@
+import inscripciones.*
+
+describe "incripciones" {
+
+	var matematicas = new Materia() 
+
+	test "materias arpobadas" {
+		assert.that(true)
+	}
+
+}
+
