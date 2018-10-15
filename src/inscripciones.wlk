@@ -1,3 +1,5 @@
+import tiposDeInscripcion.*
+
 class Carrera {
 
 	var property materias = []
@@ -10,10 +12,11 @@ class Carrera {
 
 class Materia {
 
-	var property carrera = []
+	var property carrera = null
 	var property inscripcion = false
-	var property tipoInscripcion=null
-	var property cupo=null
+	var property tipoInscripcion = null
+	var property cupo = null
+	var property hayLugar=false
 
 }
 
@@ -34,7 +37,7 @@ class Estudiante {
 	}
 
 	method agregarMateriasAprobadas(unaMateApro, nota) {
-		materiasAprobadas.add(unaMateApro)
+		materiasAprobadas.add(unaMateApro, nota)
 	}
 
 	method aprobarMateria(unaMateria, unaNota) {
@@ -47,8 +50,8 @@ class Estudiante {
 		return materiasAprobadas.any{ materiasAprobada => materiasAprobada == materia }
 	}
 
-	method estaLaMateriaEnLaCarrera(unaMateria) {
-		return carrera.contains(unaMateria)
+	method estaLaMateriaEnLaCarrera() {
+		return carrera.any{ unaMateria => unaMateria.carrera() }
 	}
 
 	method estaCursandoVariasCarreras() {
@@ -56,12 +59,18 @@ class Estudiante {
 	}
 
 	method Inscribirse(unaMateria) {
-		unaMateria.inscripcion(true)
+		if (self.puedeInscribirse(unaMateria) and self.estaLaMateriaEnLaCarrera()) {
+			unaMateria.inscripcion(true)
+		}
+	}
+
+	method puedeInscribirse(unaMateria) {
+		return !self.tieneAprobada(unaMateria) and unaMateria.tipoDeInscripcion().requisito(self)
+	}
+
+	method registrarMateriaAprobada() {
+		return materiasAprobadas.asSet()
 	}
 
 }
-
-
-
-
 
